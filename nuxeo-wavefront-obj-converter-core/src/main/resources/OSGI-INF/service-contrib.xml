@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.labs.threed.obj.service">
+
+  <implementation class="org.nuxeo.labs.threed.obj.service.WavefrontObjConversionServiceImpl" />
+
+  <service>
+    <provide interface="org.nuxeo.labs.threed.obj.service.WavefrontObjConversionService" />
+  </service>
+
+</component>

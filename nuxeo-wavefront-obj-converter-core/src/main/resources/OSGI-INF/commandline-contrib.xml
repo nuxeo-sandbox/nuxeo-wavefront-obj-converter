@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.labs.threed.obj.commandline">
+
+     <extension target="org.nuxeo.ecm.platform.commandline.executor.service.CommandLineExecutorComponent" point="command">
+
+        <command name="obj2gltf" enabled="true">
+            <commandLine>obj2gltf</commandLine>
+            <winCommand>obj2gltf.cmd</winCommand>
+            <testParameterString>-h</testParameterString>
+            <parameterString>-b -i #{sourceFilePath} -o #{targetFilePath}</parameterString>
+            <winParameterString>-b -i #{sourceFilePath} -o #{targetFilePath}</winParameterString>
+            <installationDirective>You need to install https://github.com/CesiumGS/obj2gltf</installationDirective>
+        </command>
+
+    </extension>
+
+</component>
