@@ -6,6 +6,7 @@ A plugin that adds wavefront OBJ to GLB file format conversion capabilities
 ## List of Features (details below)
 
 - OBJ to GLB converter using [obj2gltf](https://github.com/CesiumGS/obj2gltf)
+- GLTF to GLB converter using [gltf-pipeline](https://github.com/CesiumGS/gltf-pipeline)
 - an automation operation to convert a single document holding a simple OBJ file or a folder containing the OBJ file and other resources as individual documents
 
 ## Build
@@ -22,7 +23,8 @@ mvn clean install
 
 Install the package on your instance.
 
-This plugin relies on [obj2gltf](https://github.com/CesiumGS/obj2gltf) which must be installed on your nuxeo server performing the conversion. Have a look at the repository [Dockerfile](https://github.com/nuxeo-sandbox/nuxeo-wavefront-obj-converter/blob/master/nuxeo-wavefront-obj-converter-docker/Dockerfile) to find more details about the installation steps.
+This plugin relies on [obj2gltf](https://github.com/CesiumGS/obj2gltf) and [gltf-pipeline](https://github.com/CesiumGS/gltf-pipeline) which must be installed on your nuxeo server performing the conversion. 
+Have a look at the repository [Dockerfile](https://github.com/nuxeo-sandbox/nuxeo-wavefront-obj-converter/blob/master/nuxeo-wavefront-obj-converter-docker/Dockerfile) to find more details about the installation steps.
 
 # Support
 

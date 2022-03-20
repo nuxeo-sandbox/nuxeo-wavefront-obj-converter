@@ -12,6 +12,15 @@
             <installationDirective>You need to install https://github.com/CesiumGS/obj2gltf</installationDirective>
         </command>
 
+         <command name="gltf2glb" enabled="true">
+             <commandLine>gltf-pipeline</commandLine>
+             <winCommand>gltf-pipeline.cmd</winCommand>
+             <testParameterString>-h</testParameterString>
+             <parameterString>-i #{sourceFilePath} -o #{targetFilePath}</parameterString>
+             <winParameterString>-i #{sourceFilePath} -o #{targetFilePath}</winParameterString>
+             <installationDirective>You need to install https://github.com/CesiumGS/gltf-pipeline</installationDirective>
+         </command>
+
     </extension>
 
 </component>
