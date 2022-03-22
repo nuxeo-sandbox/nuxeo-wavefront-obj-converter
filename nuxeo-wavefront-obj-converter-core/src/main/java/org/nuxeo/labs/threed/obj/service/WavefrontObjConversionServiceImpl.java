@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
@@ -40,7 +39,12 @@ public class WavefrontObjConversionServiceImpl extends DefaultComponent implemen
         FSExporterService fsExporter = Framework.getService(FSExporterService.class);
         fsExporter.export(doc.getCoreSession(), doc.getPathAsString(), tmpFolder.toString(), null);
 
-        Path tmpDocFolder = Paths.get(tmpFolder.toString(),doc.getName());
+        //fs exporters creates a container, need to get its path
+        File[] tmpFolderFiles = tmpFolder.toFile().listFiles();
+        if (tmpFolderFiles == null || tmpFolderFiles.length != 1 || !tmpFolderFiles[0].isDirectory()) {
+            throw new NuxeoException("unknown exported folderish structure");
+        }
+        Path tmpDocFolder = tmpFolderFiles[0].toPath();
 
         //get obj file
         Optional<File> objFile = Arrays.stream(tmpDocFolder.toFile().listFiles()).filter(file -> FilenameUtils.isExtension(file.getName(), "obj")).findFirst();
