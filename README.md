@@ -19,6 +19,12 @@ cd nuxeo-wavefront-obj-converter
 mvn clean install
 ```
 
+To build the plugin without building the Docker image, use:
+
+```
+mvn -DskipDocker=true clean install
+```
+
 ## Install
 
 Install the package on your instance.
