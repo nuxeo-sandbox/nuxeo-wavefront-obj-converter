@@ -19,6 +19,14 @@
             </parameters>
         </converter>
 
+        <converter class="org.nuxeo.ecm.platform.convert.plugins.CommandLineConverter" name="draco">
+            <sourceMimeType>model/gltf-binary</sourceMimeType>
+            <destinationMimeType>model/gltf-binary</destinationMimeType>
+            <parameters>
+                <parameter name="CommandLineName">gltf2glb</parameter>
+            </parameters>
+        </converter>
+
         <converter class="org.nuxeo.labs.threed.obj.converter.gltfArchiveToGlbConverter" name="gltf2glb">
             <sourceMimeType>application/zip</sourceMimeType>
             <destinationMimeType>model/gltf-binary</destinationMimeType>

@@ -23,8 +23,8 @@
              <commandLine>gltf-pipeline</commandLine>
              <winCommand>gltf-pipeline.cmd</winCommand>
              <testParameterString>-h</testParameterString>
-             <parameterString>-i #{sourceFilePath} -o #{targetFilePath}</parameterString>
-             <winParameterString>-i #{sourceFilePath} -o #{targetFilePath}</winParameterString>
+             <parameterString>-i #{sourceFilePath} -o #{targetFilePath} -d --draco.compressionLevel 7  --draco.quantizePositionBits 16 --draco.quantizeTexcoordBits 16 --draco.quantizeNormalBits 16</parameterString>
+             <winParameterString>-i #{sourceFilePath} -o #{targetFilePath} -d --draco.compressionLevel 7  --draco.quantizePositionBits 16 --draco.quantizeTexcoordBits 16 --draco.quantizeNormalBits 16</winParameterString>
              <installationDirective>You need to install https://github.com/CesiumGS/gltf-pipeline</installationDirective>
          </command>
 
