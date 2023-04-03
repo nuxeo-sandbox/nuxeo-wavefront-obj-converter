@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
+import org.nuxeo.ecm.platform.mimetype.interfaces.MimetypeRegistry;
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.labs.threed.obj.service.WavefrontObjConversionService;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -26,7 +27,7 @@ import java.util.zip.ZipFile;
 
 @RunWith(FeaturesRunner.class)
 @Features({ PlatformFeature.class })
-@Deploy({"nuxeo-wavefront-obj-converter-core","nuxeo-fsexporter"})
+@Deploy({"nuxeo-wavefront-obj-converter-core"})
 public class TestService {
 
     @Inject
@@ -34,6 +35,9 @@ public class TestService {
 
     @Inject
     protected WavefrontObjConversionService wavefrontobjconversionservice;
+
+    @Inject
+    protected MimetypeRegistry mimetypeRegistry;
 
     @Inject
     protected TransactionalFeature transactionalFeature;
@@ -55,6 +59,11 @@ public class TestService {
             ZipEntry entry = entries.next();
             Blob blob = new FileBlob(zipFile.getInputStream(entry));
             blob.setFilename(entry.getName());
+            try {
+                blob.setMimeType(mimetypeRegistry.getMimetypeFromFilename(entry.getName()));
+            } catch (Exception e) {
+                //skip
+            }
             DocumentModel doc = session.createDocumentModel(folder.getPathAsString(), entry.getName(), "File");
             doc.setPropertyValue("file:content", (Serializable) blob);
             session.createDocument(doc);

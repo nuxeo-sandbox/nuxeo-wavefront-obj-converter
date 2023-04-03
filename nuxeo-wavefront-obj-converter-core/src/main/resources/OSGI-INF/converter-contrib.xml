@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <component name="org.nuxeo.labs.threed.obj.converter">
     <extension point="converter" target="org.nuxeo.ecm.core.convert.service.ConversionServiceImpl">
+
+        <converter class="org.nuxeo.ecm.platform.convert.plugins.CommandLineConverter" name="image2glbResource">
+            <sourceMimeType>image/png</sourceMimeType>
+            <sourceMimeType>image/jpeg</sourceMimeType>
+            <sourceMimeType>image/bmp</sourceMimeType>
+            <parameters>
+                <parameter name="CommandLineName">image2glbResource</parameter>
+            </parameters>
+        </converter>
+
         <converter class="org.nuxeo.ecm.platform.convert.plugins.CommandLineConverter" name="obj2gltf">
             <sourceMimeType>model/obj</sourceMimeType>
             <destinationMimeType>model/gltf-binary</destinationMimeType>

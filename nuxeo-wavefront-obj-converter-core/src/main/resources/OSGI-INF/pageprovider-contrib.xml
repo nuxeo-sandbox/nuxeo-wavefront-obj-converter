@@ -1,0 +1,13 @@
+<component name="org.nuxeo.labs.threed.obj.pp">
+
+    <extension point="providers" target="org.nuxeo.ecm.platform.query.api.PageProviderService">
+        <coreQueryPageProvider name="obj_components">
+            <pattern escapeParameters="true" quoteParameters="false">
+                Select * From Document Where ecm:ancestorId='?' AND ecm:mixinType NOT IN ('HiddenInNavigation') AND ecm:isVersion = 0 AND ecm:isTrashed = 0
+            </pattern>
+            <sort column="ecm:path" ascending="true" />
+            <pageSize>50</pageSize>
+        </coreQueryPageProvider>
+    </extension>
+
+</component>

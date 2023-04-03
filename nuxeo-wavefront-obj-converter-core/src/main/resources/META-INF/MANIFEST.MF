@@ -9,4 +9,6 @@ Bundle-SymbolicName: nuxeo-wavefront-obj-converter-core;singleton=true
 Nuxeo-Component: OSGI-INF/commandline-contrib.xml,
  OSGI-INF/service-contrib.xml,
  OSGI-INF/converter-contrib.xml,
- OSGI-INF/operation-contrib.xml
+ OSGI-INF/operation-contrib.xml,
+ OSGI-INF/pageprovider-contrib.xml,
+ OSGI-INF/adapter-contrib.xml

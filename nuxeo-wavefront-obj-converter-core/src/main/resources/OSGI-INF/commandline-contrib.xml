@@ -3,7 +3,14 @@
 
      <extension target="org.nuxeo.ecm.platform.commandline.executor.service.CommandLineExecutorComponent" point="command">
 
-        <command name="obj2gltf" enabled="true">
+         <command name="image2glbResource" enabled="true">
+             <commandLine>convert</commandLine>
+             <parameterString>-define registry:temporary-path=#{nuxeo.tmp.dir} -quiet #{sourceFilePath}[0] -flatten -strip -sampling-factor 4:2:0 -quality 85 jpg:#{targetFilePath}</parameterString>
+             <winParameterString>-define registry:temporary-path=#{nuxeo.tmp.dir} -quiet #{sourceFilePath}[0] -flatten -strip -sampling-factor 4:2:0 -quality 85 jpg:#{targetFilePath}</winParameterString>
+             <installationDirective>You need to install ImageMagick.</installationDirective>
+         </command>
+
+         <command name="obj2gltf" enabled="true">
             <commandLine>obj2gltf</commandLine>
             <winCommand>obj2gltf.cmd</winCommand>
             <testParameterString>-h</testParameterString>
@@ -21,6 +28,6 @@
              <installationDirective>You need to install https://github.com/CesiumGS/gltf-pipeline</installationDirective>
          </command>
 
-    </extension>
+     </extension>
 
 </component>

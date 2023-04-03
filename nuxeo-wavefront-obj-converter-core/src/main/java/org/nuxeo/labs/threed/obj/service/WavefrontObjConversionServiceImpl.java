@@ -1,6 +1,7 @@
 package org.nuxeo.labs.threed.obj.service;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoException;
@@ -12,16 +13,24 @@ import org.nuxeo.ecm.platform.commandline.executor.api.CmdParameters;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandLineExecutorService;
 import org.nuxeo.ecm.platform.commandline.executor.api.CommandNotAvailable;
 import org.nuxeo.ecm.platform.commandline.executor.api.ExecResult;
-import org.nuxeo.io.fsexporter.FSExporterService;
+import org.nuxeo.ecm.platform.query.api.PageProvider;
+import org.nuxeo.ecm.platform.query.api.PageProviderService;
+import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
+import org.nuxeo.labs.threed.obj.adapter.Blob2GlbResourceAdapter;
 import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.model.DefaultComponent;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class WavefrontObjConversionServiceImpl extends DefaultComponent implements WavefrontObjConversionService {
@@ -36,18 +45,58 @@ public class WavefrontObjConversionServiceImpl extends DefaultComponent implemen
 
     public Blob convertFolderish(DocumentModel doc) throws IOException, CommandNotAvailable {
         Path tmpFolder = Framework.createTempDirectory("obj_conversion");
-        FSExporterService fsExporter = Framework.getService(FSExporterService.class);
-        fsExporter.export(doc.getCoreSession(), doc.getPathAsString(), tmpFolder.toString(), null);
 
-        //fs exporters creates a container, need to get its path
-        File[] tmpFolderFiles = tmpFolder.toFile().listFiles();
-        if (tmpFolderFiles == null || tmpFolderFiles.length != 1 || !tmpFolderFiles[0].isDirectory()) {
-            throw new NuxeoException("unknown exported folderish structure");
-        }
-        Path tmpDocFolder = tmpFolderFiles[0].toPath();
+        //get children sorted by path
+        PageProviderService pageProviderService = Framework.getService(PageProviderService.class);
+        Map<String, Serializable> props = new HashMap<>();
+        props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY, (Serializable) doc.getCoreSession());
+
+        @SuppressWarnings("unchecked")
+        PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) pageProviderService.getPageProvider(
+                "obj_components", null, null, null, null,
+                props, new Object[] { doc.getId() });
+
+        Map<String,Path> folderPaths = new HashMap<>();
+        folderPaths.put(doc.getPathAsString(),tmpFolder);
+
+        // loop and create tree
+        do {
+            List<DocumentModel> children = pp.getCurrentPage();
+            for (DocumentModel current : children) {
+                Path parent = folderPaths.get(current.getPath().removeLastSegments(1).toString());
+                if (current.isFolder()) {
+                    File folder = new File(Path.of(parent.toString(), (String) current.getPropertyValue("dc:title")).toString());
+                    if(!folder.createNewFile()) {
+                        throw new IOException("Could not create tmp folder "+folder.getPath());
+                    }
+                } else {
+                    Blob blob = current.getAdapter(Blob2GlbResourceAdapter.class).getBlob();
+                    if (blob != null) {
+                        String name = (String) current.getPropertyValue("dc:title");
+                        if (name == null) {
+                            name = current.getName();
+                        }
+                        File file = new File(Path.of(parent.toString(), name).toString());
+                        if(file.createNewFile()) {
+                            try (InputStream in = blob.getStream();OutputStream out = new FileOutputStream(file)) {
+                                IOUtils.copy(in, out);
+                            }
+                        } else {
+                            throw new IOException("Could not create tmp file "+file.getPath());
+                        }
+                    }
+                }
+            }
+            pp.nextPage();
+        } while (pp.isNextEntryAvailable());
 
         //get obj file
-        Optional<File> objFile = Arrays.stream(tmpDocFolder.toFile().listFiles()).filter(file -> FilenameUtils.isExtension(file.getName(), "obj")).findFirst();
+        File[] files = tmpFolder.toFile().listFiles();
+        if (files == null) {
+            throw new NuxeoException("Cannot list tmp file structure");
+        }
+        Optional<File> objFile = Arrays.stream(files)
+                .filter(file -> FilenameUtils.isExtension(file.getName(), "obj")).findFirst();
         if (objFile.isEmpty()) {
             throw new NuxeoException("No OBJ file found in structure");
         }
