@@ -9,6 +9,7 @@ services:
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8787
       - NUXEO_DEV=true
       - NUXEO_CLID=${NUXEO_CLID}
+      - NUXEO_PACKAGES=nuxeo-web-ui nuxeo-compound-document
     volumes:
       - ./conf.d:/etc/nuxeo/conf.d
       - data:/var/lib/nuxeo

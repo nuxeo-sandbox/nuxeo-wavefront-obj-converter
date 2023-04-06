@@ -39,7 +39,9 @@ public class WavefrontObjConversionServiceImpl extends DefaultComponent implemen
         try {
             Blob blob = doc.isFolder() ? convertFolderish(doc) : convertSingleDocument(doc);
             ConversionService conversionService = Framework.getService(ConversionService.class);
-            BlobHolder conversionResult = conversionService.convert("draco", new SimpleBlobHolder(blob), new HashMap<>());
+            HashMap<String, Serializable> params = new HashMap<>();
+            params.put("targetFileName",blob.getFilename());
+            BlobHolder conversionResult = conversionService.convert("draco", new SimpleBlobHolder(blob), params);
             return conversionResult.getBlob();
         } catch (IOException | CommandNotAvailable e) {
            throw new NuxeoException(e);
