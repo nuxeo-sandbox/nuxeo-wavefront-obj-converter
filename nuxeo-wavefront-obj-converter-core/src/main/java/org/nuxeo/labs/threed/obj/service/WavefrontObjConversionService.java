@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface WavefrontObjConversionService {
 
-    public Blob convert(DocumentModel doc) throws IOException;
+    Blob convert(DocumentModel doc);
 
 }

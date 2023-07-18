@@ -58,7 +58,7 @@ public class TestService {
             DocumentModel doc = session.createDocumentModel(folder.getPathAsString(), entry.getName(), "File");
             doc.setPropertyValue("file:content", (Serializable) blob);
             session.createDocument(doc);
-        };
+        }
 
         transactionalFeature.nextTransaction();
 
