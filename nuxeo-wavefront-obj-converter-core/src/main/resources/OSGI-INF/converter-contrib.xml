@@ -8,13 +8,5 @@
                 <parameter name="CommandLineName">obj2gltf</parameter>
             </parameters>
         </converter>
-
-        <converter class="org.nuxeo.labs.threed.obj.converter.gltfArchiveToGlbConverter" name="gltf2glb">
-            <sourceMimeType>application/zip</sourceMimeType>
-            <destinationMimeType>model/gltf-binary</destinationMimeType>
-            <parameters>
-                <parameter name="CommandLineName">gltf2glb</parameter>
-            </parameters>
-        </converter>
     </extension>
 </component>
