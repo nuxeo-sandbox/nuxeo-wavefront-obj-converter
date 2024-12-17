@@ -3,7 +3,7 @@ package org.nuxeo.labs.threed.obj;
 import java.io.File;
 import java.io.Serializable;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.junit.Assert;
 import org.junit.Test;
