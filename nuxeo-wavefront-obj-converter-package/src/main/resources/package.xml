@@ -19,14 +19,13 @@
     <platform>lts-@NUXEO_TARGET_VERSION@</platform>
   </platforms>
   <!-- Dependencies on other packages -->
-  <dependencies>
-    <package>fs-exporter</package>
+  <!-- <dependencies> -->
   <!-- <package>another-package:1.0.0:1.0.0</package> -->
   <!-- If you require JSF UI package:  -->
   <!-- <package>nuxeo-jsf-ui</package> -->
   <!-- If you require WEB UI package:  -->
   <!-- <package>nuxeo-web-ui</package> -->
-  </dependencies>
+  <!-- </dependencies> -->
   <!-- Conflicts with other packages -->
   <!-- <conflicts> -->
   <!-- <package>a-conflicting-package:1.0.0:1.0.0</package> -->
@@ -35,8 +34,8 @@
   <!-- <provides> -->
   <!-- <package>an-embedded-package:1.0.0:1.0.0</package> -->
   <!-- </provides> -->
-  <license></license>
-  <license-url></license-url>
+  <license>Apache License, Version 2.0</license>
+  <license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
   <!-- Visibility: PRIVATE | MARKETPLACE | DEV | PUBLIC -->
   <visibility>PUBLIC</visibility>
 </package>
