@@ -37,8 +37,10 @@ jobs:
               }
             ]
 
-      - name: Install OS dependencies
-        run: sudo apt-get -y install ffmpeg exiftool
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm install -g obj2gltf
 
       - name: Build with Maven
         run: mvn -B install --file pom.xml -DskipDocker=true
